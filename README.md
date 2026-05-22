@@ -27,7 +27,7 @@ A lightweight Python Flask application instrumented with Prometheus metrics for 
 
 ---
 
-# Application Endpoints
+## Application Endpoints
 
 | Endpoint | Description |
 |---|---|
@@ -37,11 +37,9 @@ A lightweight Python Flask application instrumented with Prometheus metrics for 
 
 ---
 
-# Exposed Metrics
+## Exposed Metrics
 
-## Counter
-
-### `demo_http_requests_total`
+### Counter: `demo_http_requests_total`
 
 Tracks total HTTP requests grouped by:
 
@@ -49,56 +47,35 @@ Tracks total HTTP requests grouped by:
 - endpoint
 - status
 
-Example labels:
+Example:
 
 ```text
-demo_http_requests_total{
-  endpoint="/api",
-  method="GET",
-  status="500"
-}
+demo_http_requests_total{endpoint="/api", method="GET", status="500"}
+```
 
-## Gauge
+---
 
-### `demo_active_users`
+### Gauge: `demo_active_users`
 
-Simulates active users count.
+Simulates current active users count.
 
-## Counter
+---
 
-### `demo_http_requests_total`
-
-Tracks total HTTP requests grouped by:
-
-- method
-- endpoint
-- status
-
-## Histogram
-
-### `demo_http_request_duration_seconds`
-
-Tracks request latency by endpoint.
-
-Histogram
-
-demo_http_request_duration_seconds
+### Histogram: `demo_http_request_duration_seconds`
 
 Tracks request latency by endpoint.
 
 Configured buckets:
 
-0.05
-0.1
-0.2
-0.3
-0.5
-1
-2
-5
+```text
+0.05, 0.1, 0.2, 0.3, 0.5, 1, 2, 5
+```
 
-Project Structure
+---
 
+## Project Structure
+
+```text
 prometheus-demo-app/
 ├── app.py
 ├── requirements.txt
@@ -107,11 +84,15 @@ prometheus-demo-app/
 ├── README.md
 ├── .gitignore
 └── screenshots/
+```
 
-Docker Compose
+---
+
+## Docker Compose
 
 This application connects to the external Docker network created by the monitoring stack.
 
+```yaml
 services:
   demo-app:
     build: .
@@ -125,116 +106,144 @@ networks:
   monitoring:
     external: true
     name: monitoring-lab_default
+```
 
-Start the Application
+Start the application:
 
-Build and start:
-
+```bash
 docker compose up -d --build
+```
 
 Verify metrics:
 
+```bash
 curl http://localhost:8000/metrics
+```
 
-Prometheus Integration
+---
+
+## Prometheus Integration
 
 Prometheus configuration is managed in the monitoring stack repository:
 
+```text
 https://github.com/DVanyan/monitoring-lab
+```
 
-Add this scrape job to prometheus.yml:
+Add this scrape job to `prometheus.yml`:
 
+```yaml
 - job_name: "demo-app"
   static_configs:
     - targets: ["prometheus-demo-app:8000"]
+```
 
 Reload or restart Prometheus after updating the configuration.
 
-Generate Test Traffic
+---
 
-Basic traffic
+## Generate Test Traffic
 
+### Basic traffic
+
+```bash
 timeout 300 bash -c 'while true; do curl -s localhost:8000 > /dev/null; sleep 0.1; done'
+```
 
-API traffic
+---
 
+### API traffic
+
+```bash
 timeout 300 bash -c 'while true; do curl -s localhost:8000/api > /dev/null; sleep 0.1; done'
+```
 
-PromQL Examples
+---
 
-Requests per second
+## PromQL Examples
 
+### Requests per second
+
+```promql
 rate(demo_http_requests_total[1m])
+```
 
-Requests per second grouped by status
+---
 
+### Requests per second grouped by status
+
+```promql
 sum by(status) (
   rate(demo_http_requests_total[1m])
 )
+```
 
-API requests per second grouped by status
+---
 
+### API requests per second grouped by status
+
+```promql
 sum by(status) (
   rate(demo_http_requests_total{endpoint="/api"}[1m])
 )
+```
 
-API error percentage
+---
 
-sum(
-  rate(
-    demo_http_requests_total{
-      endpoint="/api",
-      status=~"404|500"
-    }[5m]
-  )
-)
+### API error percentage
+
+```promql
+sum(rate(demo_http_requests_total{endpoint="/api", status=~"404|500"}[5m]))
 /
-sum(
-  rate(
-    demo_http_requests_total{
-      endpoint="/api"
-    }[5m]
-  )
-)
+sum(rate(demo_http_requests_total{endpoint="/api"}[5m]))
 * 100
+```
 
-p95 request latency
+---
 
+### p95 request latency
+
+```promql
 histogram_quantile(
   0.95,
   sum by(le, endpoint) (
-    rate(
-      demo_http_request_duration_seconds_bucket[5m]
-    )
+    rate(demo_http_request_duration_seconds_bucket[5m])
   )
 )
+```
 
-Learning Goals
+---
+
+## Learning Goals
 
 This project is designed for practicing:
 
-* Prometheus fundamentals
-* PromQL
-* Counters, Gauges, Histograms
-* Labels and aggregation
-* Error rate monitoring
-* Request latency analysis
-* Histogram quantiles
-* Grafana dashboards
-* Observability concepts
-* Alerting fundamentals
+- Prometheus fundamentals
+- PromQL
+- Counters, Gauges, and Histograms
+- Labels and aggregation
+- Error rate monitoring
+- Request latency analysis
+- Histogram quantiles
+- Grafana dashboards
+- Observability concepts
+- Alerting fundamentals
 
-Related Repository
+---
+
+## Related Repository
 
 Monitoring stack repository:
 
+```text
 https://github.com/DVanyan/monitoring-lab
+```
 
-ncludes:
+Includes:
 
-* Prometheus
-* Grafana
-* Node Exporter
-* cAdvisor
-* Blackbox Exporter
-* Alertmanager
+- Prometheus
+- Grafana
+- Node Exporter
+- cAdvisor
+- Blackbox Exporter
+- Alertmanager
