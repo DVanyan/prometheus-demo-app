@@ -12,7 +12,6 @@ A lightweight Python Flask application instrumented with Prometheus metrics for 
 
 ## Architecture
 
-```text
 Client Traffic
       ↓
 Flask Demo App
