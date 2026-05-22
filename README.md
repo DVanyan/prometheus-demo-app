@@ -307,10 +307,34 @@ Includes:
 - Blackbox Exporter
 - Alertmanager
 
-# Author
+## How to Use with monitoring-lab
 
-David Vanyan
+This application is designed to work together with the monitoring stack from:
+
+```text
+
+https://github.com/DVanyan/monitoring-lab
+
+```
+
+1. Start the monitoring stack from the `monitoring-lab` repository.
+
+2. Start this demo application.
+
+3. Add the demo-app scrape configuration to Prometheus.
+
+4. Open Grafana dashboards and begin generating traffic.
+
+---
+
+## Author
+
+**David Vanyan**
 
 LFCS Certified Linux Administrator
+
+- GitHub: https://github.com/DVanyan
+
+- LinkedIn: www.linkedin.com/in/davidvanyan
 
 [![LFCS](https://images.credly.com/size/220x220/images/1e6611ca-8afe-4ecc-ad4d-305fba52ee7e/1_LFCS-600x600.png)](https://www.credly.com/badges/eb28bbcb-1a81-4e01-98bf-b6d1e6c674be/public_url)
