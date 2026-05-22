@@ -10,4 +10,4 @@ services:
 networks:
   monitoring:
     external: true
-    name: monitoring-lab_monitoring
+    name: monitoring-lab_default
