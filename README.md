@@ -1,6 +1,27 @@
+![Python](https://img.shields.io/badge/Python-3.12-blue)
+![Docker](https://img.shields.io/badge/Docker-Enabled-blue)
+![Prometheus](https://img.shields.io/badge/Prometheus-Metrics-orange)
+
+## Dashboard Preview
+
+![Prometheus Demo](./screenshots/Grafana.jpg)
+
 # Prometheus Demo App
 
 A lightweight Python Flask application instrumented with Prometheus metrics for practicing PromQL, histograms, latency monitoring, error rates, Grafana dashboards, and observability concepts.
+
+## Architecture
+
+```text
+Client Traffic
+      ↓
+Flask Demo App
+      ↓
+/metrics
+      ↓
+Prometheus
+      ↓
+Grafana Dashboards
 
 ---
 
@@ -160,6 +181,15 @@ timeout 300 bash -c 'while true; do curl -s localhost:8000/api > /dev/null; slee
 
 ---
 
+## Example Metrics
+
+```text
+demo_http_requests_total{endpoint="/api",status="500"} 125
+demo_active_users 47
+demo_http_request_duration_seconds_bucket{le="0.5"} 312
+
+---
+
 ## PromQL Examples
 
 ### Requests per second
@@ -247,3 +277,16 @@ Includes:
 - cAdvisor
 - Blackbox Exporter
 - Alertmanager
+
+## Skills Demonstrated
+
+- Prometheus instrumentation
+- PromQL
+- Histogram metrics
+- Error rate monitoring
+- Request latency monitoring
+- Docker networking
+- Flask application monitoring
+- Metrics aggregation
+- Grafana visualization
+- Observability fundamentals
