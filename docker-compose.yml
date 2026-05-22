@@ -1,0 +1,13 @@
+services:
+  demo-app:
+    build: .
+    container_name: prometheus-demo-app
+    ports:
+      - "8000:8000"
+    networks:
+      - monitoring
+
+networks:
+  monitoring:
+    external: true
+    name: monitoring-lab_monitoring
