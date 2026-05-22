@@ -10,6 +10,8 @@ A lightweight Python Flask application instrumented with Prometheus metrics for 
 
 ## Dashboard Preview
 
+> Custom-built Grafana dashboard created specifically for practicing PromQL, histogram metrics, error rate monitoring, and latency analysis.
+
 ![Grafana Dashboard](./screenshots/Grafana.jpg)
 
 ---
