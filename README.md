@@ -306,3 +306,11 @@ Includes:
 - cAdvisor
 - Blackbox Exporter
 - Alertmanager
+
+# Author
+
+David Vanyan
+
+LFCS Certified Linux Administrator
+
+[![LFCS](https://images.credly.com/size/220x220/images/1e6611ca-8afe-4ecc-ad4d-305fba52ee7e/1_LFCS-600x600.png)](https://www.credly.com/badges/eb28bbcb-1a81-4e01-98bf-b6d1e6c674be/public_url)
