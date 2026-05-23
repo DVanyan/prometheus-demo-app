@@ -257,38 +257,6 @@ networks:
     name: monitoring-lab_default
 ```
 
-Start the application:
-
-```bash
-docker compose up -d --build
-```
-
-Verify metrics:
-
-```bash
-curl http://localhost:8000/metrics
-```
-
----
-
-## Prometheus Integration
-
-Prometheus configuration is managed in the monitoring stack repository:
-
-```text
-https://github.com/DVanyan/monitoring-lab
-```
-
-Add this scrape job to `prometheus.yml`:
-
-```yaml
-- job_name: "demo-app"
-  static_configs:
-    - targets: ["prometheus-demo-app:8000"]
-```
-
-Reload or restart Prometheus after updating the configuration.
-
 ---
 
 ## Generate Test Traffic
