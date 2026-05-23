@@ -134,6 +134,109 @@ prometheus-demo-app/
 
 ---
 
+## How to Run
+
+### Clone repository
+
+```bash
+git clone https://github.com/DVanyan/prometheus-demo-app.git
+cd prometheus-demo-app
+```
+
+### Make sure monitoring-lab is running
+
+This demo application is designed to work together with the monitoring stack from:
+
+```text
+https://github.com/DVanyan/monitoring-lab
+```
+
+Start the monitoring stack first from the `monitoring-lab` repository:
+
+```bash
+cd ../monitoring-lab
+docker compose up -d
+```
+
+### Verify Docker network
+
+The demo application connects to the Docker network created by `monitoring-lab`.
+
+Expected network name:
+
+```text
+monitoring-lab_default
+```
+
+Check existing Docker networks:
+
+```bash
+docker network ls
+```
+
+If your network name is different, update it in `docker-compose.yml`:
+
+```yaml
+networks:
+  monitoring:
+    external: true
+    name: monitoring-lab_default
+```
+
+### Start demo application
+
+Return to the demo application repository:
+
+```bash
+cd ../prometheus-demo-app
+docker compose up -d --build
+```
+
+### Add Prometheus scrape target
+
+In the `monitoring-lab` repository, add the following scrape job to the Prometheus configuration:
+
+```yaml
+- job_name: "demo-app"
+  static_configs:
+    - targets: ["prometheus-demo-app:8000"]
+```
+
+Then restart Prometheus:
+
+```bash
+cd ../monitoring-lab
+docker compose restart prometheus
+```
+
+### Open services
+
+Demo App:
+
+```text
+http://localhost:8000
+```
+
+Metrics endpoint:
+
+```text
+http://localhost:8000/metrics
+```
+
+Prometheus:
+
+```text
+http://localhost:9090
+```
+
+Grafana:
+
+```text
+http://localhost:3000
+```
+
+---
+
 ## Docker Compose
 
 This application connects to the external Docker network created by the monitoring stack.
